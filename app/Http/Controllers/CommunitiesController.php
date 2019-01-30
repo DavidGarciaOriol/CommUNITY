@@ -8,6 +8,12 @@ use App\Http\Requests\CommunityRequest;
 
 class CommunitiesController extends Controller{
 
+  public function __construct(){
+    $this->middleware('auth', [
+      'only' => ['create', 'store', 'edit', 'update', 'destroy']
+    ]);
+  }
+
 //INDEX
   public function index(){
     $communities = Community::paginate(3);
@@ -21,11 +27,12 @@ class CommunitiesController extends Controller{
 //STORE TO INDEX
   public function store(CommunityRequest $request){
     Community::create([
+      'user_id' => $request->user()->id,
       'name' => request('name'),
-      'slug' => request('slug'),
+      'slug' => str_slug(request('name'), '-'),
       'description' => request('description'),
       'max_users' => request('max_users'),
-      'genre' => request('genre'),
+      'genre' => request('genre')
     ]);
 
     return redirect('/');
@@ -34,7 +41,7 @@ class CommunitiesController extends Controller{
 //SHOW COMMUNITIES
   public function show($slug){
     $community = Community::where('slug', $slug)->firstOrFail();
-    return view('public.communities.show',['community' => $community]);
+    return view('public.communities.show', ['community' => $community]);
   }
 
 //EDIT A COMMUNITY
@@ -49,7 +56,7 @@ class CommunitiesController extends Controller{
       'slug' => request('slug'),
       'description' => request('description'),
       'max_users' => request('max_users'),
-      'genre' => request('genre'),
+      'genre' => request('genre')
     ]);
     return redirect('/communities/'.$community->slug);
   }
