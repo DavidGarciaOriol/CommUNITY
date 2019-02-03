@@ -6,7 +6,7 @@ $factory->define(App\Community::class, function(Faker $faker){
 
   $name = ucfirst($faker->words(rand(1,5), true));
   return [
-    'user_id' => $faker->numberBetween(1,3),
+    'user_id' => $faker->numberBetween(1,2),
     'name' => $name,
     'slug' => str_slug($name, "-"),
     'description' => $faker->text(rand(100,300)),

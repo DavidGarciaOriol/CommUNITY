@@ -1,6 +1,6 @@
 @extends('public.layout')
 
-@section('title', 'Inicio')
+@section('title', 'CommUNITY')
 
 @section('content')
 <h1>Página de inicio</h1>
